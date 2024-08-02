@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_ttd_clean_app/injection_container.dart';
+import 'package:weather_ttd_clean_app/presentation/bloc/weather_bloc.dart';
+import 'package:weather_ttd_clean_app/presentation/pages/weather_page.dart';
 
 void main() {
+  setupLocator();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("vielleicht werde ich mal Cool"),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => locator<WeatherBloc>(),
+        )
+      ],
+      child: const MaterialApp(
+        home: WeatherPage(),
       ),
     );
   }
